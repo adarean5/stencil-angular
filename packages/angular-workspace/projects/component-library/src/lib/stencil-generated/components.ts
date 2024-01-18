@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* auto-generated angular directive proxies */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';
 
-import { ProxyCmp } from './angular-component-lib/utils';
+import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
 
 import { Components } from 'stencil-library';
 
@@ -22,10 +22,20 @@ export class MyComponent {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
+    proxyOutputs(this, this.el, ['simpleEvent', 'objectEvent']);
   }
 }
 
 
-export declare interface MyComponent extends Components.MyComponent {}
+export declare interface MyComponent extends Components.MyComponent {
+  /**
+   * Emits a simple event that only contains a string
+   */
+  simpleEvent: EventEmitter<CustomEvent<string>>;
+  /**
+   * Emits an event that contains an object
+   */
+  objectEvent: EventEmitter<CustomEvent<{ count: number, text: string, isSomething: boolean }>>;
+}
 
 

@@ -1,4 +1,10 @@
 <div>
   <h1>Example stencil wrapper</h1>
-  <my-component></my-component>
+  <my-component
+    first="First"
+    [middle]="'middle'"
+    [last]="'last'"
+    (simpleEvent)="onSimpleEvent($event)"
+    (objectEvent)="onObjectEvent($event)"
+  ></my-component>
 </div>

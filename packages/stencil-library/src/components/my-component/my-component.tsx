@@ -1,4 +1,4 @@
-import { Component, Prop, h } from '@stencil/core';
+import {Component, Prop, h, EventEmitter, Event} from '@stencil/core';
 import { format } from '../../utils/utils';
 
 @Component({
@@ -22,11 +22,41 @@ export class MyComponent {
    */
   @Prop() last: string;
 
+  /**
+   * Emits a simple event that only contains a string
+   */
+  @Event() simpleEvent: EventEmitter<string>
+
+  /**
+   * Emits an event that contains an object
+   */
+  @Event() objectEvent: EventEmitter<{
+    count: number,
+    text: string,
+    isSomething: boolean
+  }>
+
   private getText(): string {
     return format(this.first, this.middle, this.last);
   }
 
+  private handleSimpleClick = (): void => {
+    this.simpleEvent.emit("Test text")
+  }
+
+  private handleObjectClick = (): void => {
+    this.objectEvent.emit({
+      count: 100,
+      text: "Test text",
+      isSomething: true
+    })
+  }
+
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return <div>
+      <p>Hello, World! I'm {this.getText()}</p>
+      <button onClick={this.handleSimpleClick}>Click me for a simple event</button>
+      <button onClick={this.handleObjectClick}>Click me for an object event</button>
+    </div>;
   }
 }

@@ -7,4 +7,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'my-app';
+
+  onSimpleEvent(event: unknown) {
+    console.log("Simple event", event)
+  }
+
+  onObjectEvent(event: unknown) {
+    console.log("Object event", event)
+  }
 }
