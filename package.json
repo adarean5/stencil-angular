@@ -1,7 +1,12 @@
 {
-  "name": "stencil-angular",
-  "version": "1.0.0",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "lerna": "^8.0.2",
+    "typescript": "^5.3.3"
   }
 }
