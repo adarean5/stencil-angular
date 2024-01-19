@@ -1,5 +1,15 @@
 import { Config } from '@stencil/core';
-import {angularOutputTarget} from "@stencil/angular-output-target";
+import {angularOutputTarget, ValueAccessorConfig} from "@stencil/angular-output-target";
+
+
+const angularValueAccessorBindings: ValueAccessorConfig[] = [
+  {
+    elementSelectors: ['simple-input[type=text]'],
+    event: 'myChange',
+    targetAttr: 'value',
+    type: 'text',
+  },
+];
 
 export const config: Config = {
   namespace: 'stencil-library',

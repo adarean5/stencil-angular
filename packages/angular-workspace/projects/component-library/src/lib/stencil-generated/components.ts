@@ -39,3 +39,29 @@ export declare interface MyComponent extends Components.MyComponent {
 }
 
 
+@ProxyCmp({
+  inputs: ['value']
+})
+@Component({
+  selector: 'simple-input',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['value'],
+})
+export class SimpleInput {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+    proxyOutputs(this, this.el, ['myChange']);
+  }
+}
+
+
+export declare interface SimpleInput extends Components.SimpleInput {
+
+  myChange: EventEmitter<CustomEvent<string>>;
+}
+
+

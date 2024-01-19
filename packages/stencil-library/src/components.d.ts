@@ -20,10 +20,17 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface SimpleInput {
+        "value": string;
+    }
 }
 export interface MyComponentCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLMyComponentElement;
+}
+export interface SimpleInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSimpleInputElement;
 }
 declare global {
     interface HTMLMyComponentElementEventMap {
@@ -48,8 +55,26 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLSimpleInputElementEventMap {
+        "myChange": string;
+    }
+    interface HTMLSimpleInputElement extends Components.SimpleInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSimpleInputElementEventMap>(type: K, listener: (this: HTMLSimpleInputElement, ev: SimpleInputCustomEvent<HTMLSimpleInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSimpleInputElementEventMap>(type: K, listener: (this: HTMLSimpleInputElement, ev: SimpleInputCustomEvent<HTMLSimpleInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSimpleInputElement: {
+        prototype: HTMLSimpleInputElement;
+        new (): HTMLSimpleInputElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "simple-input": HTMLSimpleInputElement;
     }
 }
 declare namespace LocalJSX {
@@ -79,8 +104,13 @@ declare namespace LocalJSX {
          */
         "onSimpleEvent"?: (event: MyComponentCustomEvent<string>) => void;
     }
+    interface SimpleInput {
+        "onMyChange"?: (event: SimpleInputCustomEvent<string>) => void;
+        "value"?: string;
+    }
     interface IntrinsicElements {
         "my-component": MyComponent;
+        "simple-input": SimpleInput;
     }
 }
 export { LocalJSX as JSX };
@@ -88,6 +118,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "simple-input": LocalJSX.SimpleInput & JSXBase.HTMLAttributes<HTMLSimpleInputElement>;
         }
     }
 }
