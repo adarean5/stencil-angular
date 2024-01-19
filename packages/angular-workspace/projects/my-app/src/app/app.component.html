@@ -1,5 +1,8 @@
 <div>
   <h1>Example stencil wrapper</h1>
-  <simple-input ngDefaultControl [formControl]="formControl"></simple-input>
+  <simple-input [formControl]="formControl"></simple-input>
+  <custom-input [formControl]="customInputControl"></custom-input>
   <button (click)="onSubmit()">Submit</button>
+  <button (click)="disableInputs()">Disable inputs</button>
+  <button (click)="enableInputs()">Enable inputs</button>
 </div>

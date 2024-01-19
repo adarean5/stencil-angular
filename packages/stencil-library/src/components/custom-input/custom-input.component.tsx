@@ -5,21 +5,20 @@ import { Component, Event, EventEmitter, h, Prop } from '@stencil/core';
   shadow: true,
 })
 export class CustomInput {
+  @Prop() disabled: boolean = false;
   @Prop({mutable: true}) value: string;
   @Event() myChange: EventEmitter<string>;
 
-  private handleChanges = (event: InputEvent): void => {
-    const value = (event.target as HTMLInputElement).value
-    this.value = value
-    this.myChange.emit(value)
+  private handleChanges = (): void => {
+    const newValue = `${this.value}!`;
+    this.value = newValue;
+    this.myChange.emit(newValue);
   }
 
   render() {
     return <div>
-      <label>
-        Test label
-        <input type={"text"} value={this.value} onInput={(event) => this.handleChanges(event)}/>
-      </label>
+      <p>Hey this is the value: {this.value}</p>
+      <button disabled={this.disabled} class={"custom-input-button"} onClick={() => this.handleChanges()}>Change value!</button>
     </div>;
   }
 }

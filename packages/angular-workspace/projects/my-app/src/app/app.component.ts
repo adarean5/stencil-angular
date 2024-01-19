@@ -11,6 +11,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 export class AppComponent implements OnInit {
   title = 'my-app';
   formControl = new FormControl(null);
+  customInputControl = new FormControl("Hello world")
 
   constructor(private dr: DestroyRef) {}
 
@@ -21,7 +22,18 @@ export class AppComponent implements OnInit {
     })
   }
 
+  disableInputs() {
+    this.formControl.disable();
+    this.customInputControl.disable();
+  }
+
+  enableInputs() {
+    this.formControl.enable();
+    this.customInputControl.enable();
+  }
+
   onSubmit() {
-    console.log("On submit", this.formControl.value)
+    console.log("On submit simple input", this.formControl.value)
+    console.log("On submit custom input", this.customInputControl.value)
   }
 }

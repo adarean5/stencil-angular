@@ -1,16 +1,6 @@
 import { Config } from '@stencil/core';
 import {angularOutputTarget, ValueAccessorConfig} from "@stencil/angular-output-target";
 
-
-const angularValueAccessorBindings: ValueAccessorConfig[] = [
-  {
-    elementSelectors: ['simple-input[type=text]'],
-    event: 'myChange',
-    targetAttr: 'value',
-    type: 'text',
-  },
-];
-
 export const config: Config = {
   namespace: 'stencil-library',
   outputTargets: [
@@ -33,6 +23,15 @@ export const config: Config = {
       outputType: 'component',
       directivesProxyFile: '../angular-workspace/projects/component-library/src/lib/stencil-generated/components.ts',
       directivesArrayFile: '../angular-workspace/projects/component-library/src/lib/stencil-generated/index.ts',
+      valueAccessorConfigs: [
+        {
+          elementSelectors: ['simple-input', 'custom-input'],
+          event: 'myChange',
+          // This doesn't seem to really work. No matter how you name this prop, the value accessor will always bind to "value"
+          targetAttr: 'value',
+          type: 'text',
+        }
+      ]
     }),
   ],
   testing: {

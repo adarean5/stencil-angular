@@ -6,6 +6,10 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface CustomInput {
+        "disabled": boolean;
+        "value": string;
+    }
     interface MyComponent {
         /**
           * The first name
@@ -24,6 +28,10 @@ export namespace Components {
         "value": string;
     }
 }
+export interface CustomInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCustomInputElement;
+}
 export interface MyComponentCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLMyComponentElement;
@@ -33,6 +41,23 @@ export interface SimpleInputCustomEvent<T> extends CustomEvent<T> {
     target: HTMLSimpleInputElement;
 }
 declare global {
+    interface HTMLCustomInputElementEventMap {
+        "myChange": string;
+    }
+    interface HTMLCustomInputElement extends Components.CustomInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCustomInputElementEventMap>(type: K, listener: (this: HTMLCustomInputElement, ev: CustomInputCustomEvent<HTMLCustomInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCustomInputElementEventMap>(type: K, listener: (this: HTMLCustomInputElement, ev: CustomInputCustomEvent<HTMLCustomInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLCustomInputElement: {
+        prototype: HTMLCustomInputElement;
+        new (): HTMLCustomInputElement;
+    };
     interface HTMLMyComponentElementEventMap {
         "simpleEvent": string;
         "objectEvent": {
@@ -73,11 +98,17 @@ declare global {
         new (): HTMLSimpleInputElement;
     };
     interface HTMLElementTagNameMap {
+        "custom-input": HTMLCustomInputElement;
         "my-component": HTMLMyComponentElement;
         "simple-input": HTMLSimpleInputElement;
     }
 }
 declare namespace LocalJSX {
+    interface CustomInput {
+        "disabled"?: boolean;
+        "onMyChange"?: (event: CustomInputCustomEvent<string>) => void;
+        "value"?: string;
+    }
     interface MyComponent {
         /**
           * The first name
@@ -109,6 +140,7 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface IntrinsicElements {
+        "custom-input": CustomInput;
         "my-component": MyComponent;
         "simple-input": SimpleInput;
     }
@@ -117,6 +149,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "custom-input": LocalJSX.CustomInput & JSXBase.HTMLAttributes<HTMLCustomInputElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "simple-input": LocalJSX.SimpleInput & JSXBase.HTMLAttributes<HTMLSimpleInputElement>;
         }

@@ -8,6 +8,32 @@ import { Components } from 'stencil-library';
 
 
 @ProxyCmp({
+  inputs: ['disabled', 'value']
+})
+@Component({
+  selector: 'custom-input',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['disabled', 'value'],
+})
+export class CustomInput {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+    proxyOutputs(this, this.el, ['myChange']);
+  }
+}
+
+
+export declare interface CustomInput extends Components.CustomInput {
+
+  myChange: EventEmitter<CustomEvent<string>>;
+}
+
+
+@ProxyCmp({
   inputs: ['first', 'last', 'middle']
 })
 @Component({
